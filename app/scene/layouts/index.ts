@@ -5,6 +5,7 @@ import { composition, PHASES as compositionPhases } from "./composition";
 import { couplingCohesion, PHASES as couplingPhases } from "./coupling-cohesion";
 import { functions, PHASES as functionsPhases } from "./functions";
 import { oopBasics, PHASES as oopBasicsPhases } from "./oop-basics";
+import { oopInDepth, PHASES as oopInDepthPhases } from "./oop-in-depth";
 import { placeholder } from "./placeholder";
 import { whatIsDesign, PHASES as whatIsDesignPhases } from "./what-is-design";
 
@@ -12,6 +13,7 @@ export const sceneLayouts: Record<SceneId, SceneLayout> = {
   placeholder,
   functions,
   "oop-basics": oopBasics,
+  "oop-in-depth": oopInDepth,
   "what-is-design": whatIsDesign,
   "coupling-cohesion": couplingCohesion,
   composition,
@@ -23,6 +25,7 @@ export const scenePhases: Record<SceneId, readonly string[]> = {
   placeholder: [],
   functions: functionsPhases,
   "oop-basics": oopBasicsPhases,
+  "oop-in-depth": oopInDepthPhases,
   "what-is-design": whatIsDesignPhases,
   "coupling-cohesion": couplingPhases,
   composition: compositionPhases,
