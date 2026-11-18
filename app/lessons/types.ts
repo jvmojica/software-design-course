@@ -6,6 +6,7 @@ export type SceneId =
   | "functions"
   | "oop-basics"
   | "oop-in-depth"
+  | "separation-of-concerns"
   | "what-is-design"
   | "coupling-cohesion"
   | "composition"

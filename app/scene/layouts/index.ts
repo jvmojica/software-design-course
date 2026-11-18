@@ -7,6 +7,7 @@ import { functions, PHASES as functionsPhases } from "./functions";
 import { oopBasics, PHASES as oopBasicsPhases } from "./oop-basics";
 import { oopInDepth, PHASES as oopInDepthPhases } from "./oop-in-depth";
 import { placeholder } from "./placeholder";
+import { separationOfConcerns, PHASES as socPhases } from "./separation-of-concerns";
 import { whatIsDesign, PHASES as whatIsDesignPhases } from "./what-is-design";
 
 export const sceneLayouts: Record<SceneId, SceneLayout> = {
@@ -14,6 +15,7 @@ export const sceneLayouts: Record<SceneId, SceneLayout> = {
   functions,
   "oop-basics": oopBasics,
   "oop-in-depth": oopInDepth,
+  "separation-of-concerns": separationOfConcerns,
   "what-is-design": whatIsDesign,
   "coupling-cohesion": couplingCohesion,
   composition,
@@ -26,6 +28,7 @@ export const scenePhases: Record<SceneId, readonly string[]> = {
   functions: functionsPhases,
   "oop-basics": oopBasicsPhases,
   "oop-in-depth": oopInDepthPhases,
+  "separation-of-concerns": socPhases,
   "what-is-design": whatIsDesignPhases,
   "coupling-cohesion": couplingPhases,
   composition: compositionPhases,
