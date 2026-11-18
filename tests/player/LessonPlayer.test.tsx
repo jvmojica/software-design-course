@@ -54,6 +54,13 @@ test("step text sits in a polite live region", () => {
   expect(within(live as HTMLElement).getByText("one")).toBeInTheDocument();
 });
 
+test("switching to a lesson with fewer steps never renders a missing step", () => {
+  const { rerender } = renderPlayer();
+  fireEvent.click(screen.getByRole("button", { name: "Go to step 3" }));
+  rerender(<LessonPlayer title="Other" steps={steps.slice(0, 1)} renderScene={() => null} />);
+  expect(screen.getByRole("heading", { name: "First idea" })).toBeInTheDocument();
+});
+
 test("FullLessonText renders every step as a section heading", () => {
   render(<FullLessonText steps={steps} />);
   expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(3);

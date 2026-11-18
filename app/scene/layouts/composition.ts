@@ -6,7 +6,7 @@ import { iso, pick } from "./helpers";
  * to fly AND swim. Then the tree is replaced by small capability blocks that objects are built from.
  * Edge ids: "ext:" = inherits from (child → parent), "has:" = composed of (object → capability).
  */
-const PHASES = ["tree", "penguin", "duck", "capabilities", "compose", "new-animal", "summary"] as const;
+export const PHASES = ["tree", "penguin", "duck", "capabilities", "compose", "new-animal", "summary"] as const;
 type Phase = (typeof PHASES)[number];
 
 const CLASS = { size: [1.6, 0.45, 1.0] as [number, number, number] };

@@ -40,8 +40,9 @@ export function useStepNav(count: number) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.altKey || e.ctrlKey || e.metaKey || isTypingTarget(e.target)) return;
-      if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); next(); }
-      else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); prev(); }
+      // Arrow keys only: PageUp/PageDown stay with the browser so the page (and the full lesson text) still scrolls.
+      if (e.key === "ArrowRight") { e.preventDefault(); next(); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); prev(); }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);

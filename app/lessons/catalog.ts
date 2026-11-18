@@ -1,8 +1,4 @@
-import { lesson01 } from "./content/01-what-is-software-design";
-import { lesson06 } from "./content/06-coupling-and-cohesion";
-import { lesson10 } from "./content/10-composition-over-inheritance";
-import { lesson16 } from "./content/16-behavioral-patterns";
-import type { CatalogEntry, Lesson, Level } from "./types";
+import type { CatalogEntry, Level } from "./types";
 
 type Entry = Omit<CatalogEntry, "number" | "level" | "status">;
 
@@ -36,25 +32,21 @@ const advanced: Entry[] = [
   { slug: "capstone-redesign", title: "Capstone: redesign a messy codebase step by step", summary: "Put everything together by turning a tangled codebase into a clean design, one safe step at a time." },
 ];
 
-/** Built lessons, keyed by lesson number. A lesson listed here is published. */
-const content: Record<number, Pick<Lesson, "scene" | "steps">> = {
-  1: lesson01,
-  6: lesson06,
-  10: lesson10,
-  16: lesson16,
-};
+/**
+ * Lesson numbers that are built. Their content lives in content.server.ts, which only build-time
+ * loaders import, so lesson text never ships in the browser bundle (it is already in the HTML).
+ * A test checks this list matches the content registry.
+ */
+const PUBLISHED = new Set([1, 6, 10, 16]);
 
-function build(level: Level, entries: Entry[], offset: number): (CatalogEntry | Lesson)[] {
+function build(level: Level, entries: Entry[], offset: number): CatalogEntry[] {
   return entries.map((e, i) => {
     const number = offset + i + 1;
-    const c = content[number];
-    return c
-      ? { ...e, number, level, status: "published" as const, ...c }
-      : { ...e, number, level, status: "coming-soon" as const };
+    return { ...e, number, level, status: PUBLISHED.has(number) ? "published" : "coming-soon" };
   });
 }
 
-export const catalog: (CatalogEntry | Lesson)[] = [
+export const catalog: CatalogEntry[] = [
   ...build("beginner", beginner, 0),
   ...build("intermediate", intermediate, 7),
   ...build("advanced", advanced, 14),

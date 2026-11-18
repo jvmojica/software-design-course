@@ -8,7 +8,7 @@ import { iso, pick } from "./helpers";
  *  Command  — actions become objects in a history, so they can be undone.
  *  State    — a traffic light delegates to its current state object.
  */
-const PHASES = [
+export const PHASES = [
   "intro", "strategy-problem", "strategy-card", "strategy-paypal", "observer", "observer-add",
   "command-queue", "command-undo", "state-red", "state-green", "summary",
 ] as const;

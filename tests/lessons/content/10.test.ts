@@ -1,10 +1,11 @@
 import { expect, test } from "vitest";
-import { getLesson, isPublished } from "~/lessons/registry";
+import { getLessonWithContent } from "~/lessons/content.server";
+import type { Lesson } from "~/lessons/types";
 import { validateLesson } from "~/lessons/validate";
 import { composition } from "~/scene/layouts/composition";
 
-const lesson = getLesson("composition-over-inheritance")!;
-if (!isPublished(lesson)) throw new Error("lesson 10 must be published");
+const lesson = getLessonWithContent("composition-over-inheritance") as Lesson;
+if (!lesson) throw new Error("lesson 10 must be published");
 
 const phases = lesson.steps.map((s) => s.sceneState.phase as string);
 

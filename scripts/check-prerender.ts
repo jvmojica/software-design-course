@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { catalog } from "../app/lessons/catalog";
-import { isPublished } from "../app/lessons/registry";
+import { getLessonWithContent } from "../app/lessons/content.server";
 
 const decode = (s: string) =>
   s.replace(/&#x27;|&#39;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
@@ -26,10 +26,11 @@ export function checkPrerender(buildDir: string): string[] {
     const where = `lessons/${entry.slug}`;
     for (const [what, re] of checks) if (!re.test(html)) errors.push(`${where}: missing ${what}`);
     const noindex = /<meta name="robots" content="noindex"/.test(html);
-    if (isPublished(entry)) {
+    const lesson = getLessonWithContent(entry.slug);
+    if (lesson) {
       if (noindex) errors.push(`${where}: published lesson is marked noindex`);
       const text = decode(html);
-      for (const s of entry.steps) if (!text.includes(s.title)) errors.push(`${where}: step title "${s.title}" missing from HTML`);
+      for (const s of lesson.steps) if (!text.includes(s.title)) errors.push(`${where}: step title "${s.title}" missing from HTML`);
     } else if (!noindex) {
       errors.push(`${where}: coming-soon lesson must be noindex`);
     }
@@ -41,8 +42,8 @@ export function checkPrerender(buildDir: string): string[] {
     const sitemap = readFileSync(sitemapFile, "utf8");
     for (const e of catalog) {
       const listed = sitemap.includes(`/lessons/${e.slug}<`);
-      if (listed && !isPublished(e)) errors.push(`sitemap lists coming-soon lesson ${e.slug}`);
-      if (!listed && isPublished(e)) errors.push(`sitemap is missing published lesson ${e.slug}`);
+      if (listed && e.status !== "published") errors.push(`sitemap lists coming-soon lesson ${e.slug}`);
+      if (!listed && e.status === "published") errors.push(`sitemap is missing published lesson ${e.slug}`);
     }
   }
   return errors;

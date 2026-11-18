@@ -40,14 +40,21 @@ describe("useStepNav", () => {
     expect(result.current.index).toBe(expected);
   });
 
-  test("arrow and page keys move between steps", () => {
+  test("arrow keys move between steps", () => {
     const { result } = renderHook(() => useStepNav(5));
     act(() => { fireEvent.keyDown(window, { key: "ArrowRight" }); });
-    act(() => { fireEvent.keyDown(window, { key: "PageDown" }); });
+    act(() => { fireEvent.keyDown(window, { key: "ArrowRight" }); });
     expect(result.current.index).toBe(2);
     act(() => { fireEvent.keyDown(window, { key: "ArrowLeft" }); });
-    act(() => { fireEvent.keyDown(window, { key: "PageUp" }); });
+    expect(result.current.index).toBe(1);
+  });
+
+  test("PageUp/PageDown keep scrolling the page and do not change steps", () => {
+    const { result } = renderHook(() => useStepNav(5));
+    let prevented = false;
+    act(() => { prevented = !fireEvent.keyDown(window, { key: "PageDown" }); });
     expect(result.current.index).toBe(0);
+    expect(prevented).toBe(false);
   });
 
   test("arrow keys typed into an input do not change steps", () => {

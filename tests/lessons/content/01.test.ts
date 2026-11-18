@@ -1,14 +1,14 @@
 import { expect, test } from "vitest";
-import { getLesson, isPublished } from "~/lessons/registry";
+import { getLessonWithContent } from "~/lessons/content.server";
+import type { Lesson } from "~/lessons/types";
 import { validateLesson } from "~/lessons/validate";
 import { whatIsDesign } from "~/scene/layouts/what-is-design";
 import { validateSceneModel } from "~/scene/model";
 
-const lesson = getLesson("what-is-software-design")!;
+const lesson = getLessonWithContent("what-is-software-design") as Lesson;
 
 test("lesson 1 is published, valid and has 7–9 steps", () => {
-  expect(isPublished(lesson)).toBe(true);
-  if (!isPublished(lesson)) return;
+  expect(lesson?.status).toBe("published");
   expect(validateLesson(lesson)).toEqual([]);
   expect(lesson.scene).toBe("what-is-design");
   expect(lesson.steps.length).toBeGreaterThanOrEqual(7);

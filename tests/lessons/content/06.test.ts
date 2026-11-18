@@ -1,11 +1,12 @@
 import { expect, test } from "vitest";
-import { getLesson, isPublished } from "~/lessons/registry";
+import { getLessonWithContent } from "~/lessons/content.server";
+import type { Lesson } from "~/lessons/types";
 import { validateLesson } from "~/lessons/validate";
 import { couplingCohesion } from "~/scene/layouts/coupling-cohesion";
 import type { SceneModel } from "~/scene/model";
 
-const lesson = getLesson("coupling-and-cohesion")!;
-if (!isPublished(lesson)) throw new Error("lesson 6 must be published");
+const lesson = getLessonWithContent("coupling-and-cohesion") as Lesson;
+if (!lesson) throw new Error("lesson 6 must be published");
 
 /** Which slab (module) a node sits on, judged from the geometry the learner sees. */
 function moduleOf(m: SceneModel, nodeId: string): string | undefined {

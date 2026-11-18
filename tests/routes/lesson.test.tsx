@@ -1,20 +1,30 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { createRoutesStub } from "react-router";
 import { beforeAll, describe, expect, test, vi } from "vitest";
 import type { CatalogEntry, Lesson } from "~/lessons/types";
 
+const meta = (number: number, slug: string, title: string, status: CatalogEntry["status"], level: CatalogEntry["level"] = "beginner"): CatalogEntry =>
+  ({ number, slug, title, level, summary: `${title} summary.`, status });
+
+const first = meta(1, "first", "First", "coming-soon");
+const pubMeta = meta(2, "pub", "Published lesson", "published");
+const pub2Meta = meta(3, "pub2", "Second published", "published");
+const soon = { ...meta(4, "soon", "Soon lesson", "coming-soon", "intermediate"), summary: "Not yet." };
+
 const published: Lesson = {
-  number: 2, slug: "pub", title: "Published lesson", level: "beginner", summary: "A published lesson.",
-  status: "published", scene: "placeholder",
+  ...pubMeta, scene: "placeholder",
   steps: [
     { title: "Step one", body: "Hello **world**", sceneState: {} },
     { title: "Step two", body: "More", code: { lang: "ts", source: "const x = 1" }, sceneState: {} },
   ],
 };
-const first: CatalogEntry = { number: 1, slug: "first", title: "First", level: "beginner", summary: "s", status: "coming-soon" };
-const soon: CatalogEntry = { number: 3, slug: "soon", title: "Soon lesson", level: "intermediate", summary: "Not yet.", status: "coming-soon" };
+const published2: Lesson = { ...pub2Meta, scene: "placeholder", steps: [{ title: "Only step", body: "Just one", sceneState: {} }] };
 
-vi.mock("~/lessons/catalog", () => ({ catalog: [first, published, soon] }));
+// The browser-side catalog holds metadata only; lesson content lives in a server-only module used by the loader.
+vi.mock("~/lessons/catalog", () => ({ catalog: [first, pubMeta, pub2Meta, soon] }));
+vi.mock("~/lessons/content.server", () => ({
+  getLessonWithContent: (slug: string) => [published, published2].find((l) => l.slug === slug),
+}));
 // Shiki needs Node's WASM loader (covered in tests/content-render, node env); stub it under jsdom.
 vi.mock("~/content-render/highlight", () => ({ highlightCode: async (src: string) => `<pre class="shiki">${src}</pre>` }));
 vi.mock("~/scene/SceneCanvas", () => ({ SceneCanvas: ({ label }: { label: string }) => <div role="img" aria-label={label} /> }));
@@ -39,9 +49,18 @@ describe("lesson route", () => {
     expect(await screen.findByRole("heading", { level: 1, name: "Published lesson" })).toBeInTheDocument();
     expect(screen.getByText("Step 1 of 2")).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 3, name: /Step two/ })).toBeInTheDocument();
-    expect(screen.getByRole("navigation", { name: "Breadcrumb" })).toHaveTextContent("Course map › Beginner › 2/3"); // total = catalog length (fixture has 3)
+    expect(screen.getByRole("navigation", { name: "Breadcrumb" })).toHaveTextContent("Course map › Beginner › 2/4"); // total = catalog length
     expect(screen.getByRole("link", { name: /Previous: First/ })).toHaveAttribute("href", "/lessons/first");
-    expect(screen.getByRole("link", { name: /Next: Soon lesson/ })).toHaveAttribute("href", "/lessons/soon");
+    expect(screen.getByRole("link", { name: /Next: Second published/ })).toHaveAttribute("href", "/lessons/pub2");
+  });
+
+  test("moving to the next published lesson starts it at step 1", async () => {
+    renderAt("pub");
+    fireEvent.click(await screen.findByRole("button", { name: "Go to step 2" }));
+    expect(screen.getByText("Step 2 of 2")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("link", { name: /Next: Second published/ }));
+    expect(await screen.findByRole("heading", { level: 1, name: "Second published" })).toBeInTheDocument();
+    expect(screen.getByText("Step 1 of 1")).toBeInTheDocument();
   });
 
   test("loader renders markdown and code to HTML", async () => {
@@ -55,8 +74,14 @@ describe("lesson route", () => {
     expect(await screen.findByText("Coming soon")).toBeInTheDocument();
     expect(screen.getByText("Not yet.")).toBeInTheDocument();
     expect(screen.queryByText(/Step 1 of/)).toBeNull();
-    const meta = mod.meta({ data: { entry: soon } } as never) as Record<string, unknown>[];
-    expect(meta).toContainEqual({ name: "robots", content: "noindex" });
+    const m = mod.meta({ data: { entry: soon } } as never) as Record<string, unknown>[];
+    expect(m).toContainEqual({ name: "robots", content: "noindex" });
+  });
+
+  test("coming-soon copy doesn't mention subscribing when no signup form is configured", async () => {
+    renderAt("soon");
+    await screen.findByText("Coming soon");
+    expect(screen.queryByText(/subscribe/i)).toBeNull();
   });
 
   test("in the browser, an unknown slug is a 404 without fetching data that was never pre-rendered", async () => {

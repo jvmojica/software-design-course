@@ -1,11 +1,8 @@
 import { catalog } from "./catalog";
-import type { CatalogEntry, Lesson, Level } from "./types";
+import type { CatalogEntry, Level } from "./types";
 
-export function isPublished(x: Lesson | CatalogEntry): x is Lesson {
-  return x.status === "published" && "steps" in x;
-}
-
-export function getLesson(slug: string): Lesson | CatalogEntry | undefined {
+/** Lesson metadata (safe for the browser). For a lesson's steps, use content.server.ts. */
+export function getLesson(slug: string): CatalogEntry | undefined {
   return catalog.find((l) => l.slug === slug);
 }
 
@@ -19,8 +16,4 @@ export function neighbors(slug: string): { prev?: CatalogEntry; next?: CatalogEn
   const i = catalog.findIndex((l) => l.slug === slug);
   if (i < 0) return {};
   return { prev: catalog[i - 1], next: catalog[i + 1] };
-}
-
-export function publishedLessons(): Lesson[] {
-  return catalog.filter(isPublished);
 }

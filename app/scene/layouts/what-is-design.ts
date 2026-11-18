@@ -7,7 +7,7 @@ import { iso, isoCenter, pick } from "./helpers";
  *  B (right) — designed: UI → rules → storage, stacked as layers.
  * A feature request arrives; in A the change ripples, in B it stays in one module.
  */
-const PHASES = ["intro", "inside", "two-ways", "request", "ripple", "contained", "definition", "ahead", "hero"] as const;
+export const PHASES = ["intro", "inside", "two-ways", "request", "ripple", "contained", "definition", "ahead", "hero"] as const;
 type Phase = (typeof PHASES)[number];
 
 const A_U = -2.9; // tangled version, left of center

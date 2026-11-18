@@ -4,7 +4,8 @@ import { JsonLd } from "~/components/JsonLd";
 import { highlightCode } from "~/content-render/highlight";
 import { renderMarkdown } from "~/content-render/markdown";
 import { catalog } from "~/lessons/catalog";
-import { getLesson, isPublished, neighbors } from "~/lessons/registry";
+import { getLessonWithContent } from "~/lessons/content.server";
+import { getLesson, neighbors } from "~/lessons/registry";
 import { LEVEL_LABEL, type CatalogEntry, type SceneId } from "~/lessons/types";
 import { FullLessonText } from "~/player/FullLessonText";
 import { LessonPlayer } from "~/player/LessonPlayer";
@@ -12,6 +13,7 @@ import type { RenderedStep } from "~/player/types";
 import { SceneCanvas } from "~/scene/SceneCanvas";
 import { breadcrumbJsonLd, lessonJsonLd } from "~/seo/jsonld";
 import { lessonMeta } from "~/seo/meta";
+import { siteConfig } from "~/site.config";
 
 type LoaderData = {
   entry: CatalogEntry;
@@ -23,13 +25,12 @@ type LoaderData = {
 
 /** Runs at build time while pre-rendering: lesson markdown and code become static HTML. */
 export async function loader({ params }: { params: { slug?: string } }): Promise<LoaderData> {
-  const lesson = params.slug ? getLesson(params.slug) : undefined;
-  if (!lesson) throw new Response("Not Found", { status: 404 });
-  const strip = ({ number, slug, title, level, summary, status }: CatalogEntry): CatalogEntry =>
-    ({ number, slug, title, level, summary, status });
-  const { prev, next } = neighbors(lesson.slug);
-  const base: LoaderData = { entry: strip(lesson), prev: prev && strip(prev), next: next && strip(next) };
-  if (!isPublished(lesson)) return base;
+  const entry = params.slug ? getLesson(params.slug) : undefined;
+  if (!entry) throw new Response("Not Found", { status: 404 });
+  const { prev, next } = neighbors(entry.slug);
+  const base: LoaderData = { entry, prev, next };
+  const lesson = getLessonWithContent(entry.slug);
+  if (!lesson) return base;
   const steps = await Promise.all(
     lesson.steps.map(async (s) => ({
       title: s.title,
@@ -68,6 +69,7 @@ export default function LessonRoute() {
         <>
           <p className="lesson-lede">{entry.summary}</p>
           <LessonPlayer
+            key={entry.slug /* a new lesson always starts fresh at step 1 */}
             title={entry.title}
             steps={steps}
             renderScene={(state, i) => (
@@ -81,7 +83,10 @@ export default function LessonRoute() {
         <section className="coming-soon">
           <span className="badge">Coming soon</span>
           <p className="lesson-lede">{entry.summary}</p>
-          <p>This lesson is being built. Start with a lesson that's ready, or subscribe to hear when it's published.</p>
+          <p>
+            This lesson is being built. <Link to="/lessons">Start with a lesson that's ready</Link>
+            {siteConfig.emailFormAction ? ", or subscribe below to hear when it's published." : "."}
+          </p>
         </section>
       )}
 

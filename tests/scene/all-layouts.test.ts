@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { publishedLessons } from "~/lessons/registry";
+import { publishedLessons } from "~/lessons/content.server";
 import { sceneLayouts } from "~/scene/layouts";
 import { validateSceneModel } from "~/scene/model";
 

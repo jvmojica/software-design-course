@@ -1,10 +1,11 @@
 import { expect, test } from "vitest";
-import { getLesson, isPublished } from "~/lessons/registry";
+import { getLessonWithContent } from "~/lessons/content.server";
+import type { Lesson } from "~/lessons/types";
 import { validateLesson } from "~/lessons/validate";
 import { behavioralPatterns } from "~/scene/layouts/behavioral-patterns";
 
-const lesson = getLesson("behavioral-patterns")!;
-if (!isPublished(lesson)) throw new Error("lesson 16 must be published");
+const lesson = getLessonWithContent("behavioral-patterns") as Lesson;
+if (!lesson) throw new Error("lesson 16 must be published");
 const phases = lesson.steps.map((s) => s.sceneState.phase as string);
 
 test("lesson 16 is valid with 8–12 steps covering all four patterns", () => {

@@ -6,7 +6,7 @@ import { iso, isoCenter, pick } from "./helpers";
  * (users / orders / email). First they're scattered across files with many cross-file calls;
  * then they're regrouped so each file is cohesive and only two calls cross a boundary.
  */
-const PHASES = ["scattered", "coupling", "cohesion", "change", "regroup", "clean-coupling", "clean-change", "summary"] as const;
+export const PHASES = ["scattered", "coupling", "cohesion", "change", "regroup", "clean-coupling", "clean-change", "summary"] as const;
 type Phase = (typeof PHASES)[number];
 
 type Fn = { id: string; group: "users" | "orders" | "email"; messy: [number, number]; clean: [number, number] };

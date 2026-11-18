@@ -12,7 +12,7 @@ type Props = {
 
 export function LessonPlayer({ title, steps, renderScene }: Props) {
   const nav = useStepNav(steps.length);
-  const step = steps[nav.index];
+  const step = steps[Math.min(nav.index, steps.length - 1)];
   return (
     <section className="player" aria-label={`${title} — interactive lesson`}>
       <div className="player-scene">{renderScene(step.sceneState, nav.index)}</div>
