@@ -1,0 +1,66 @@
+/* Original warm, calm palette. Scene colors (--scene-*) are read by the 3D renderer. */
+:root {
+  color-scheme: light;
+  --bg: #f6f1e9;
+  --surface: #fffdf9;
+  --surface-2: #efe8dc;
+  --ink: #2b2724;
+  --muted: #6b635a;
+  --line: #ddd3c4;
+  --brand: #4a7c8c;
+  --brand-ink: #ffffff;
+  --focus: #c9a14a;
+
+  --scene-bg: var(--bg);
+  --scene-ink: var(--ink);
+  --scene-neutral: #cfc6b8;
+  --scene-primary: #4a7c8c;
+  --scene-secondary: #c9a14a;
+  --scene-accent: #7a9a6b;
+  --scene-danger: #d0563f;
+  --scene-edge: #8a8075;
+
+  --radius: 14px;
+  --font-sans: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #1b1a18;
+    --surface: #24221f;
+    --surface-2: #2e2b27;
+    --ink: #ece6dc;
+    --muted: #a99f92;
+    --line: #3a3631;
+    --brand: #6fa6b6;
+    --brand-ink: #10181b;
+    --focus: #ddb860;
+    --scene-neutral: #5a544b;
+    --scene-primary: #6fa6b6;
+    --scene-secondary: #ddb860;
+    --scene-accent: #97b787;
+    --scene-danger: #e8735c;
+    --scene-edge: #9a9186;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #1b1a18;
+  --surface: #24221f;
+  --surface-2: #2e2b27;
+  --ink: #ece6dc;
+  --muted: #a99f92;
+  --line: #3a3631;
+  --brand: #6fa6b6;
+  --brand-ink: #10181b;
+  --focus: #ddb860;
+  --scene-neutral: #5a544b;
+  --scene-primary: #6fa6b6;
+  --scene-secondary: #ddb860;
+  --scene-accent: #97b787;
+  --scene-danger: #e8735c;
+  --scene-edge: #9a9186;
+}
