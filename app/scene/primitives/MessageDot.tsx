@@ -1,4 +1,3 @@
-import { Html } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { type Group, Vector3 } from "three";
@@ -23,16 +22,11 @@ export function MessageDot({ message, from, to, palette, reducedMotion }: {
   });
 
   return (
-    <group ref={ref}>
+    <group ref={ref} name={message.id}>
       <mesh>
         <sphereGeometry args={[0.13, 20, 12]} />
         <meshStandardMaterial color={palette.secondary} emissive={palette.secondary} emissiveIntensity={0.5} />
       </mesh>
-      {message.label && (
-        <Html position={[0, 0.3, 0]} center zIndexRange={[20, 0]} style={{ pointerEvents: "none" }}>
-          <span className="scene-message-label">{message.label}</span>
-        </Html>
-      )}
     </group>
   );
 }

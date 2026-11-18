@@ -1,4 +1,4 @@
-import { Html, RoundedBox } from "@react-three/drei";
+import { RoundedBox } from "@react-three/drei";
 import type { LayerSpec } from "../model";
 import type { Palette } from "../palette";
 
@@ -11,9 +11,6 @@ export function LayerSlab({ layer, palette }: { layer: LayerSpec; palette: Palet
       <RoundedBox args={[w, 0.1, d]} radius={0.05} smoothness={2} receiveShadow>
         <meshStandardMaterial color={palette[layer.tone]} transparent opacity={0.35} roughness={0.9} />
       </RoundedBox>
-      <Html position={[-w / 2 + 0.2, 0.1, d / 2 - 0.2]} zIndexRange={[5, 0]} style={{ pointerEvents: "none" }}>
-        <span className="scene-layer-label">{layer.label}</span>
-      </Html>
     </group>
   );
 }

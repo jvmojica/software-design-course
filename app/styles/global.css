@@ -31,7 +31,9 @@ img, svg, canvas { max-width: 100%; }
 .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; color: var(--ink); text-decoration: none; }
 .brand-mark { width: 18px; height: 18px; border-radius: 5px; background: linear-gradient(135deg, var(--scene-primary) 0 50%, var(--scene-secondary) 50%); transform: rotate(45deg) scale(0.85); }
 .site-header nav { display: flex; gap: 18px; }
-.site-header nav a { color: var(--muted); text-decoration: none; font-weight: 600; }
+.site-header nav a { color: var(--muted); text-decoration: none; font-weight: 600; white-space: nowrap; }
+.brand { white-space: nowrap; }
+@media (max-width: 420px) { .site-header nav { gap: 12px; font-size: 15px; } }
 .site-header nav a.active, .site-header nav a:hover { color: var(--ink); }
 .site-footer { margin-top: 72px; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; }
 .footer-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-top: 20px; padding-bottom: 28px; }
@@ -94,9 +96,9 @@ img, svg, canvas { max-width: 100%; }
 .step-count { margin: 0; font-size: 13px; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: 0.06em; }
 .step-title { margin: 4px 0 8px; font-size: 22px; }
 .step-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; border-top: 1px solid var(--line); }
-.step-dots { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin: 0; padding: 0; }
-.dot { width: 22px; height: 22px; border: 0; padding: 0; background: transparent; cursor: pointer; position: relative; }
-.dot::after { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: var(--line); transition: background 0.2s, transform 0.2s; }
+.step-dots { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 0; margin: 0; padding: 0; }
+.dot { width: 20px; height: 24px; border: 0; padding: 0; background: transparent; cursor: pointer; position: relative; }
+.dot::after { content: ""; position: absolute; inset: 8px 6px; border-radius: 50%; background: var(--line); transition: background 0.2s, transform 0.2s; }
 .dot[aria-current="step"]::after { background: var(--brand); transform: scale(1.35); }
 .key-hint { display: none; margin: 0; padding: 0 20px 14px; font-size: 13px; color: var(--muted); }
 @media (min-width: 900px) {
@@ -137,9 +139,13 @@ img, svg, canvas { max-width: 100%; }
 
 /* 3D scene */
 .scene { position: relative; width: 100%; height: 100%; min-height: 240px; }
+.scene { container-type: inline-size; }
 .scene canvas { display: block; }
 .scene-fallback { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; margin: 0; text-align: center; color: var(--muted); }
 .scene-loading { position: absolute; inset: 0; }
+.scene-stage { position: absolute; inset: 0; }
+.scene-labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.scene-labels > span { position: absolute; left: 0; top: 0; will-change: transform; transform: translate(-9999px, 0); }
 .scene-label {
   display: inline-block; white-space: nowrap; font: 700 13px/1 var(--font-sans); color: var(--ink);
   background: color-mix(in srgb, var(--surface) 88%, transparent); border: 1px solid var(--line);
@@ -147,8 +153,8 @@ img, svg, canvas { max-width: 100%; }
 }
 .scene-label-alert { color: var(--scene-danger); border-color: var(--scene-danger); }
 .scene-label-highlight { border-color: var(--brand); }
-.scene-layer-label { white-space: nowrap; font: 700 11px/1 var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-.scene-message-label { white-space: nowrap; font: 700 12px/1 var(--font-sans); color: var(--ink); background: var(--scene-secondary); padding: 3px 7px; border-radius: 6px; }
+.scene-label-layer { background: none; border: 0; padding: 0; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.scene-label-message { background: var(--scene-secondary); border-color: transparent; color: #2b2724; border-radius: 6px; }
 
 /* Signup */
 .signup { margin-top: 40px; padding: 24px; border-radius: var(--radius); background: var(--surface-2); }
@@ -162,4 +168,10 @@ img, svg, canvas { max-width: 100%; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
+/* Narrow scenes (phones): smaller labels so they don't cover the blocks */
+@container (max-width: 480px) {
+  .scene-label { font-size: 10px; padding: 2px 5px; }
+  .scene-label-layer { font-size: 9px; }
 }

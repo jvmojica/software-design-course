@@ -49,6 +49,11 @@ export type SceneModel = {
   camera?: { zoom: number; target: Vec3 };
 };
 
+/** Block size used when a node doesn't set one. */
+export const DEFAULT_SIZE: Vec3 = [1.6, 0.6, 1.1];
+/** How far a highlighted node rises. */
+export const HIGHLIGHT_LIFT = 0.25;
+
 export type SceneLayout = (state: Record<string, unknown>) => SceneModel;
 
 export function validateSceneModel(m: SceneModel): string[] {
