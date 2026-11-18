@@ -1,4 +1,5 @@
 import { lesson01 } from "./content/01-what-is-software-design";
+import { lesson06 } from "./content/06-coupling-and-cohesion";
 import type { CatalogEntry, Lesson, Level } from "./types";
 
 type Entry = Omit<CatalogEntry, "number" | "level" | "status">;
@@ -36,6 +37,7 @@ const advanced: Entry[] = [
 /** Built lessons, keyed by lesson number. A lesson listed here is published. */
 const content: Record<number, Pick<Lesson, "scene" | "steps">> = {
   1: lesson01,
+  6: lesson06,
 };
 
 function build(level: Level, entries: Entry[], offset: number): (CatalogEntry | Lesson)[] {

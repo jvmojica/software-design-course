@@ -91,7 +91,7 @@ img, svg, canvas { max-width: 100%; }
   border-radius: calc(var(--radius) + 4px); overflow: hidden;
 }
 .player-scene { background: radial-gradient(ellipse at 50% 40%, var(--surface) 0%, var(--surface-2) 100%); min-width: 0; }
-.player-scene .scene { aspect-ratio: 4 / 3; }
+.player-scene .scene { aspect-ratio: 3 / 2; }
 .step-panel { padding: 20px 20px 8px; min-width: 0; }
 .step-count { margin: 0; font-size: 13px; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: 0.06em; }
 .step-title { margin: 4px 0 8px; font-size: 22px; }
