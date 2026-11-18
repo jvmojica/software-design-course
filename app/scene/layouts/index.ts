@@ -1,5 +1,6 @@
 import type { SceneId } from "~/lessons/types";
 import type { SceneLayout } from "../model";
+import { behavioralPatterns } from "./behavioral-patterns";
 import { composition } from "./composition";
 import { couplingCohesion } from "./coupling-cohesion";
 import { placeholder } from "./placeholder";
@@ -10,5 +11,5 @@ export const sceneLayouts: Record<SceneId, SceneLayout> = {
   "what-is-design": whatIsDesign,
   "coupling-cohesion": couplingCohesion,
   composition,
-  "behavioral-patterns": placeholder,
+  "behavioral-patterns": behavioralPatterns,
 };
