@@ -41,6 +41,16 @@ export async function loader({ params }: { params: { slug?: string } }): Promise
   return { ...base, scene: lesson.scene, steps };
 }
 
+/**
+ * In the browser: only lessons in the catalog have pre-rendered data. For any other slug,
+ * answer 404 right away instead of fetching a .data file that doesn't exist.
+ */
+export async function clientLoader({ params, serverLoader }: { params: { slug?: string }; serverLoader: () => Promise<LoaderData> }) {
+  if (!params.slug || !getLesson(params.slug)) throw new Response("Not Found", { status: 404 });
+  return serverLoader();
+}
+// No `clientLoader.hydrate`: pre-rendered pages must hydrate from their HTML so the lesson text stays in the page.
+
 export const meta: MetaFunction<typeof loader> = ({ data }) => (data ? lessonMeta(data.entry) : [{ title: "Page not found" }]);
 
 export default function LessonRoute() {

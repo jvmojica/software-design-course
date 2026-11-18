@@ -59,6 +59,15 @@ describe("lesson route", () => {
     expect(meta).toContainEqual({ name: "robots", content: "noindex" });
   });
 
+  test("in the browser, an unknown slug is a 404 without fetching data that was never pre-rendered", async () => {
+    let fetched = false;
+    const serverLoader = async () => { fetched = true; return {}; };
+    await expect(mod.clientLoader({ params: { slug: "nope" }, serverLoader } as never)).rejects.toMatchObject({ status: 404 });
+    expect(fetched).toBe(false);
+    await mod.clientLoader({ params: { slug: "pub" }, serverLoader } as never);
+    expect(fetched).toBe(true);
+  });
+
   test("unknown slug throws a 404 and shows Page not found", async () => {
     await expect(mod.loader({ params: { slug: "nope" } } as never)).rejects.toMatchObject({ status: 404 });
     renderAt("nope");
