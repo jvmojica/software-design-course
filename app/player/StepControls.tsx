@@ -3,8 +3,8 @@ type Props = { index: number; count: number; go(i: number): void; next(): void; 
 export function StepControls({ index, count, go, next, prev }: Props) {
   return (
     <nav className="step-controls" aria-label="Lesson steps">
-      <button type="button" className="btn" onClick={prev} disabled={index === 0} aria-label="Previous">
-        <span aria-hidden="true">◀</span> Prev
+      <button type="button" className="btn btn-prev" onClick={prev} disabled={index === 0}>
+        <span aria-hidden="true">◀</span> Previous
       </button>
       <ol className="step-dots">
         {Array.from({ length: count }, (_, i) => (
@@ -19,7 +19,7 @@ export function StepControls({ index, count, go, next, prev }: Props) {
           </li>
         ))}
       </ol>
-      <button type="button" className="btn btn-primary" onClick={next} disabled={index === count - 1} aria-label="Next">
+      <button type="button" className="btn btn-primary btn-next" onClick={next} disabled={index === count - 1}>
         Next <span aria-hidden="true">▶</span>
       </button>
     </nav>

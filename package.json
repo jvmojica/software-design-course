@@ -6,7 +6,7 @@
     "dev": "react-router dev",
     "og": "tsx scripts/og-images.ts",
     "check": "tsx scripts/check-prerender.ts",
-    "build": "npm run og && react-router build && npm run check",
+    "build": "npm run og && react-router build && node -e \"require('fs').copyFileSync('build/client/__spa-fallback.html','build/client/404.html')\" && npm run check",
     "test": "vitest run",
     "typecheck": "react-router typegen && tsc --noEmit"
   },
@@ -34,7 +34,9 @@
     "@types/react-dom": "^19.3.0",
     "@types/three": "^0.187.0",
     "jsdom": "^29.1.1",
+    "lighthouse": "^12.8.2",
     "satori": "^0.63.2",
+    "serve": "^14.2.8",
     "tsx": "^4.23.15",
     "typescript": "^6.0.3",
     "vite": "^8.3.8",

@@ -23,7 +23,16 @@ type Props = { scene: SceneId; sceneState: Record<string, unknown>; label: strin
 
 export function SceneCanvas({ scene, sceneState, label }: Props) {
   const [mode, setMode] = useState<"pending" | "webgl" | "fallback">("pending");
-  useEffect(() => setMode(isWebGLAvailable() ? "webgl" : "fallback"), []);
+  useEffect(() => {
+    // Wait until the browser is idle so the 3D code never competes with the page's first paint and input.
+    const start = () => setMode(isWebGLAvailable() ? "webgl" : "fallback");
+    if (typeof requestIdleCallback === "function") {
+      const id = requestIdleCallback(start, { timeout: 1500 });
+      return () => cancelIdleCallback(id);
+    }
+    const id = setTimeout(start, 50);
+    return () => clearTimeout(id);
+  }, []);
   const model = useMemo(() => sceneLayouts[scene](sceneState), [scene, sceneState]);
 
   return (

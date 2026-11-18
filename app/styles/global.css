@@ -95,10 +95,13 @@ img, svg, canvas { max-width: 100%; }
 .step-panel { padding: 20px 20px 8px; min-width: 0; }
 .step-count { margin: 0; font-size: 13px; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: 0.06em; }
 .step-title { margin: 4px 0 8px; font-size: 22px; }
-.step-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; border-top: 1px solid var(--line); }
+.step-controls { display: grid; grid-template-columns: auto 1fr auto; grid-template-areas: "dots dots dots" "prev . next"; align-items: center; row-gap: 8px; padding: 12px 20px 14px; border-top: 1px solid var(--line); }
+.step-dots { grid-area: dots; }
+.btn-prev { grid-area: prev; }
+.btn-next { grid-area: next; }
 .step-dots { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 0; margin: 0; padding: 0; }
-.dot { width: 16px; height: 24px; border: 0; padding: 0; background: transparent; cursor: pointer; position: relative; }
-.dot::after { content: ""; position: absolute; inset: 8px 4px; border-radius: 50%; background: var(--line); transition: background 0.2s, transform 0.2s; }
+.dot { width: 24px; height: 24px; border: 0; padding: 0; background: transparent; cursor: pointer; position: relative; }
+.dot::after { content: ""; position: absolute; inset: 8px; border-radius: 50%; background: var(--line); transition: background 0.2s, transform 0.2s; }
 .dot[aria-current="step"]::after { background: var(--brand); transform: scale(1.35); }
 .key-hint { display: none; margin: 0; padding: 0 20px 14px; font-size: 13px; color: var(--muted); }
 @media (min-width: 900px) {
