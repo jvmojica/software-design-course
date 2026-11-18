@@ -16,7 +16,7 @@ test("course map lists 21 lessons under three level headings", () => {
   const levels = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent);
   expect(levels).toEqual(["Beginner", "Intermediate", "Advanced"]);
   expect(screen.getAllByRole("listitem")).toHaveLength(21);
-  const soonCard = screen.getAllByRole("listitem").find((li) => li.textContent?.includes("OOP basics"))!;
+  const soonCard = screen.getAllByRole("listitem").find((li) => li.textContent?.includes("Separation of concerns"))!;
   expect(within(soonCard).getByText("Coming soon")).toBeInTheDocument();
 });
 

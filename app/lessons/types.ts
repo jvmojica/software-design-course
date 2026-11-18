@@ -4,6 +4,7 @@ export type LessonStatus = "published" | "coming-soon";
 export type SceneId =
   | "placeholder"
   | "functions"
+  | "oop-basics"
   | "what-is-design"
   | "coupling-cohesion"
   | "composition"

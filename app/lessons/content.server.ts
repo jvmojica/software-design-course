@@ -1,6 +1,7 @@
 import { catalog } from "./catalog";
 import { lesson01 } from "./content/01-what-is-software-design";
 import { lesson02 } from "./content/02-functions-and-naming";
+import { lesson03 } from "./content/03-oop-basics";
 import { lesson06 } from "./content/06-coupling-and-cohesion";
 import { lesson10 } from "./content/10-composition-over-inheritance";
 import { lesson16 } from "./content/16-behavioral-patterns";
@@ -10,6 +11,7 @@ import type { Lesson } from "./types";
 const content: Record<number, Pick<Lesson, "scene" | "steps">> = {
   1: lesson01,
   2: lesson02,
+  3: lesson03,
   6: lesson06,
   10: lesson10,
   16: lesson16,
