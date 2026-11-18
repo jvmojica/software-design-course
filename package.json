@@ -4,11 +4,14 @@
   "type": "module",
   "scripts": {
     "dev": "react-router dev",
-    "build": "react-router build",
+    "og": "tsx scripts/og-images.ts",
+    "check": "tsx scripts/check-prerender.ts",
+    "build": "npm run og && react-router build && npm run check",
     "test": "vitest run",
     "typecheck": "react-router typegen && tsc --noEmit"
   },
   "dependencies": {
+    "@fontsource/atkinson-hyperlegible": "^5.3.0",
     "@react-router/node": "^7.18.5",
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",

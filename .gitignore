@@ -3,3 +3,4 @@ build/
 .react-router/
 .superpowers/
 coverage/
+public/og/

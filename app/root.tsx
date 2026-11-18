@@ -2,6 +2,8 @@ import { isRouteErrorResponse, Link, Links, Meta, Outlet, Scripts, ScrollRestora
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { THEME_INIT_SCRIPT } from "./components/ThemeToggle";
+import "@fontsource/atkinson-hyperlegible/400.css";
+import "@fontsource/atkinson-hyperlegible/700.css";
 import "./styles/tokens.css";
 import "./styles/global.css";
 
