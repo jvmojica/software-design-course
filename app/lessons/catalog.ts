@@ -37,7 +37,7 @@ const advanced: Entry[] = [
  * loaders import, so lesson text never ships in the browser bundle (it is already in the HTML).
  * A test checks this list matches the content registry.
  */
-const PUBLISHED = new Set([1, 2, 3, 4, 5, 6, 10, 16]);
+const PUBLISHED = new Set([1, 2, 3, 4, 5, 6, 7, 10, 16]);
 
 function build(level: Level, entries: Entry[], offset: number): CatalogEntry[] {
   return entries.map((e, i) => {

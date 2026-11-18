@@ -4,6 +4,7 @@ import { behavioralPatterns, PHASES as behavioralPhases } from "./behavioral-pat
 import { composition, PHASES as compositionPhases } from "./composition";
 import { couplingCohesion, PHASES as couplingPhases } from "./coupling-cohesion";
 import { functions, PHASES as functionsPhases } from "./functions";
+import { keepSimple, PHASES as keepSimplePhases } from "./keep-simple";
 import { oopBasics, PHASES as oopBasicsPhases } from "./oop-basics";
 import { oopInDepth, PHASES as oopInDepthPhases } from "./oop-in-depth";
 import { placeholder } from "./placeholder";
@@ -16,6 +17,7 @@ export const sceneLayouts: Record<SceneId, SceneLayout> = {
   "oop-basics": oopBasics,
   "oop-in-depth": oopInDepth,
   "separation-of-concerns": separationOfConcerns,
+  "keep-simple": keepSimple,
   "what-is-design": whatIsDesign,
   "coupling-cohesion": couplingCohesion,
   composition,
@@ -29,6 +31,7 @@ export const scenePhases: Record<SceneId, readonly string[]> = {
   "oop-basics": oopBasicsPhases,
   "oop-in-depth": oopInDepthPhases,
   "separation-of-concerns": socPhases,
+  "keep-simple": keepSimplePhases,
   "what-is-design": whatIsDesignPhases,
   "coupling-cohesion": couplingPhases,
   composition: compositionPhases,
