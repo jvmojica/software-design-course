@@ -1,5 +1,6 @@
 import { catalog } from "./catalog";
 import { lesson01 } from "./content/01-what-is-software-design";
+import { lesson02 } from "./content/02-functions-and-naming";
 import { lesson06 } from "./content/06-coupling-and-cohesion";
 import { lesson10 } from "./content/10-composition-over-inheritance";
 import { lesson16 } from "./content/16-behavioral-patterns";
@@ -8,6 +9,7 @@ import type { Lesson } from "./types";
 /** Built lesson content, keyed by lesson number. Build-time only: imported by route loaders and scripts. */
 const content: Record<number, Pick<Lesson, "scene" | "steps">> = {
   1: lesson01,
+  2: lesson02,
   6: lesson06,
   10: lesson10,
   16: lesson16,
