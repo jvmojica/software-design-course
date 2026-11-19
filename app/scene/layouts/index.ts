@@ -10,6 +10,7 @@ import { oopInDepth, PHASES as oopInDepthPhases } from "./oop-in-depth";
 import { placeholder } from "./placeholder";
 import { separationOfConcerns, PHASES as socPhases } from "./separation-of-concerns";
 import { solidOne, PHASES as solidOnePhases } from "./solid-1";
+import { solidTwo, PHASES as solidTwoPhases } from "./solid-2";
 import { whatIsDesign, PHASES as whatIsDesignPhases } from "./what-is-design";
 
 export const sceneLayouts: Record<SceneId, SceneLayout> = {
@@ -20,6 +21,7 @@ export const sceneLayouts: Record<SceneId, SceneLayout> = {
   "separation-of-concerns": separationOfConcerns,
   "keep-simple": keepSimple,
   "solid-1": solidOne,
+  "solid-2": solidTwo,
   "what-is-design": whatIsDesign,
   "coupling-cohesion": couplingCohesion,
   composition,
@@ -35,6 +37,7 @@ export const scenePhases: Record<SceneId, readonly string[]> = {
   "separation-of-concerns": socPhases,
   "keep-simple": keepSimplePhases,
   "solid-1": solidOnePhases,
+  "solid-2": solidTwoPhases,
   "what-is-design": whatIsDesignPhases,
   "coupling-cohesion": couplingPhases,
   composition: compositionPhases,

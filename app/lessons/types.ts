@@ -9,6 +9,7 @@ export type SceneId =
   | "separation-of-concerns"
   | "keep-simple"
   | "solid-1"
+  | "solid-2"
   | "what-is-design"
   | "coupling-cohesion"
   | "composition"
